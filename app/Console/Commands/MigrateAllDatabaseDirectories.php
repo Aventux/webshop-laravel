@@ -44,7 +44,7 @@ class MigrateAllDatabaseDirectories extends Commands
 
             $this->write(Task::class, 'Migrating: '.$directory, function () use ($directory) {
                 $this->call('migrate', [
-                    '--force', '--path' => $directory,
+                    '--force' => true, '--path' => $directory,
                 ]);
             });
         }
