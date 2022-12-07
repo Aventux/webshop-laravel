@@ -8,3 +8,9 @@
 
 - php artisan db:dbLocalBackup
 - php artisan db:dbLocalRestore
+
+# Vendor
+
+- ./vendor/bin/phpstan analyse
+- php artisan insights
+- phpmd app/Http/Controllers text ./laravelmd.xml
