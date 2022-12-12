@@ -33,4 +33,6 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
+    'mode' => env('VIEW_MODE', 'vite'),
+
 ];
