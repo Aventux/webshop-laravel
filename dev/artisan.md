@@ -3,6 +3,8 @@
 
 ## Migrate Database
 - php artisan customMigrate:migrateDirectories
+- php artisan migrate --seed
+
 
 ## Backup and Restore Database
 
