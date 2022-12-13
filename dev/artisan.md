@@ -1,4 +1,10 @@
 
+# Development
+- php artisan event:list
+
+## ToDo:
+- leasot 'app/**/*.php' ( https://github.com/pgilad/leasot )
+
 # Database
 
 ## Migrate Database
