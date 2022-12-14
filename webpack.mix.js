@@ -13,8 +13,13 @@ const mix = require('laravel-mix');
 
 mix.sass('resources/sass/app.scss', 'public')
     .combine([
+            'node_modules/jquery/dist/jquery.min.js',
+            'node_modules/jquery-ui-dist/jquery-ui.min.js',
             'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
-            'resources/js/app.js',
+            'node_modules/parsleyjs/dist/parsley.min.js',
+            'node_modules/parsleyjs/dist/i18n/en.js',
+            'node_modules/parsleyjs/dist/i18n/de.js',
+            'resources/js/webmix.js',
         ],
         'public/app.js')
     .sourceMaps();

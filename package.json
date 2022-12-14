@@ -21,6 +21,7 @@
         "jquery-ui": "^1.13.2",
         "jquery-ui-dist": "^1.13.2",
         "leasot": "^13.2.0",
+        "parsleyjs": "^2.9.2",
         "webmix": "^1.0.13"
     }
 }
