@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\OpenApi\Parameters\GetProductParameters;
 use App\OpenApi\Responses\ProductResponse;
-use Request;
 use Vyuldashev\LaravelOpenApi\Attributes as OpenApi;
 
 #[OpenApi\PathItem]
@@ -31,39 +30,29 @@ class ProductController extends Controller
     #[OpenApi\Operation]
     #[OpenApi\Parameters(factory: GetProductParameters::class)]
     #[OpenApi\Response(factory: ProductResponse::class)]
-    public function index(int $id)
+    public function index(int $id): \Illuminate\Http\JsonResponse
     {
-        $statusCode = 200;
-        $success = true;
-        $responseResult = [
-            'id' => 0, 'title' => '', 'description' => '', 'product_stock' => 0, 'message' => '',
-        ];
-
-        try {
-
-
-            $responseResult ['id'] = $product->id;
-            $responseResult ['title'] = $product->title;
-            $responseResult ['description'] = $product->description;
-            $responseResult ['product_stock'] = $product->product_stock;
-
-        } catch (\Throwable $e) {
-            $success = false;
-            $statusCode = 404;
-            $responseResult = [
-                'error' => $e->getMessage(),
-            ];
-        }
 
         $api = Api::Service();
-        $api->execute(function () {
-            //            /** @var Product $product */
-            //            $product = Product::findOrFail($id);
-        });
+        $api->execute(function () use ($id) {
+            /** @var Product $product */
+            $product = Product::findOrFail($id);
 
+            return [
+                'responseData' => [
+                    'id'            => $product->id, 'description' => $product->description,
+                    'product_stock' => $product->product_stock,
+                ],
+            ];
+        })
+            ->error(function ($e) use ($id) {
+                return [
+                    'statusCode' => 404, 'message' => 'Product ID '.$id.' not found',
+                ];
+                //            /** @var Product $product */
+                //            $product = Product::findOrFail($id);
+            });
 
-        return response()->json([
-            'success' => $success, 'data' => $responseResult,
-        ], $statusCode);
+        return $api->render();
     }
 }

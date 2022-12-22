@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+
 class Api
 {
     private mixed $callbackExecute;
@@ -9,6 +12,7 @@ class Api
 
     private int $statusCode = 200;
     private bool $success = true;
+    private string $error = '';
     private string $message = '';
     private array $responseData = [];
 
@@ -28,7 +32,7 @@ class Api
         return $this;
     }
 
-    public function render()
+    public function render(): JsonResponse
     {
         try {
             if (is_callable($this->callbackExecute)) {
@@ -36,22 +40,25 @@ class Api
                 $this->callbackResultProcessing($callbackResult);
             }
         } catch (\Throwable $e) {
-            if (is_callable($this->callbackError, $e)) {
-                $callbackResult = call_user_func($this->callbackExecute, $e);
+            $this->success = false;
+            if (is_callable($this->callbackError)) {
+                $callbackResult = call_user_func($this->callbackError, $e);
                 $this->callbackResultProcessing($callbackResult);
             }
         }
 
-        response()->json([
+        return response()->json([
             'success' => $this->success, 'data' => $this->responseData, 'message' => $this->message,
+            'error'   => $this->error,
         ], $this->statusCode);
     }
 
     private function callbackResultProcessing($callbackResult): void
     {
-        $this->statusCode = $callbackResult['statusCode'] ?? $this->success;
+        $this->statusCode = $callbackResult['statusCode'] ?? $this->statusCode;
         $this->success = $callbackResult['success'] ?? $this->success;
-        $this->message = $callbackResult['message'] ?? $this->success;
+        $this->error = $callbackResult['error'] ?? $this->error;
+        $this->message = $callbackResult['message'] ?? $this->message;
         $this->responseData = $callbackResult['responseData'] ?? $this->responseData;
     }
 }
