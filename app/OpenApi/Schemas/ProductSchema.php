@@ -19,6 +19,6 @@ class ProductSchema extends SchemaFactory implements Reusable
     public function build(): SchemaContract
     {
         return Schema::object('Product')
-            ->properties(Schema::string('foo'));
+            ->properties(Schema::integer('id'));
     }
 }
