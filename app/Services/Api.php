@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 
 class Api
 {
@@ -14,7 +13,7 @@ class Api
     private bool $success = true;
     private string $error = '';
     private string $message = '';
-    private array $responseData = [];
+    private array $data = [];
 
     public function __construct()
     {
@@ -48,7 +47,7 @@ class Api
         }
 
         return response()->json([
-            'success' => $this->success, 'data' => $this->responseData, 'message' => $this->message,
+            'success' => $this->success, 'data' => $this->data, 'message' => $this->message,
             'error'   => $this->error,
         ], $this->statusCode);
     }
@@ -57,8 +56,8 @@ class Api
     {
         $this->statusCode = $callbackResult['statusCode'] ?? $this->statusCode;
         $this->success = $callbackResult['success'] ?? $this->success;
+        $this->data = $callbackResult['data'] ?? $this->data;
         $this->error = $callbackResult['error'] ?? $this->error;
         $this->message = $callbackResult['message'] ?? $this->message;
-        $this->responseData = $callbackResult['responseData'] ?? $this->responseData;
     }
 }
