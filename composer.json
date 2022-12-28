@@ -16,7 +16,6 @@
         "laravel/ui": "^4.1",
         "matomo/matomo-php-tracker": "^3.1",
         "mpociot/vat-calculator": "^3.1",
-        "pierre-adrien/laravel-cookie-consent": "^1.0",
         "spatie/laravel-permission": "^5.7",
         "spatie/laravel-translatable": "^6.1",
         "vyuldashev/laravel-openapi": "^1.8"
