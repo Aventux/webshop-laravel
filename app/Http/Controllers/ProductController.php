@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class ProductController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -20,8 +21,12 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(int $id)
     {
-        return view('home');
+        $product = Product::findOrFail($id);
+
+        return view('product',[
+            'product' => $product,
+        ]);
     }
 }
